@@ -56,9 +56,7 @@ export const ICCPSection = () => {
                         <ul className="space-y-5 mb-10">
                             {benefits.map(({ icon: Icon, title, desc }) => (
                                 <li key={title} className="flex gap-4 items-start">
-                                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#9D0808]/10 flex items-center justify-center mt-0.5">
-                                        <Icon className="w-5 h-5 text-[#9D0808]" />
-                                    </div>
+                                    <Icon className="flex-shrink-0 w-7 h-7 text-[#9D0808] mt-0.5" strokeWidth={2.5} />
                                     <div>
                                         <p className="font-semibold text-black text-sm">{title}</p>
                                         <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>

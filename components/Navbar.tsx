@@ -7,11 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-    { name: "Beranda", href: "/" },
-    { name: "Tentang", href: "/about" },
-    { name: "Kegiatan", href: "/activities" },
+    { name: "About Us", href: "/about" },
     { name: "Blog", href: "/blog" },
-    { name: "Tim", href: "/team" },
+    { name: "Our Team", href: "/team" },
+    { name: "Event", href: "/activities" },
 ];
 
 export default function Navbar() {
@@ -27,8 +26,8 @@ export default function Navbar() {
     return (
         <header
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled
-                    ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
-                    : "bg-white border-b border-gray-200"
+                ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
+                : "bg-white border-b border-gray-200"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
