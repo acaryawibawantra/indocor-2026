@@ -134,7 +134,7 @@ export default function EditArticlePage() {
                 return;
             }
 
-            router.push("/admin/articles");
+            router.push("/admin/articles?updated=true");
         } catch {
             setError("Terjadi kesalahan koneksi");
         } finally {

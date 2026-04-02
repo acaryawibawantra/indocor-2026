@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Plus, Pencil, Trash2, Loader2, Search, FileText, Download, Clock, CheckCircle2, XCircle } from "lucide-react";
+import { Plus, Pencil, Loader2, Search, FileText, Download, Clock, CheckCircle2, XCircle } from "lucide-react";
 
 interface Article {
     id: number;
@@ -34,7 +34,7 @@ export default function AdminArticlesPage() {
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
-    const [deleting, setDeleting] = useState<number | null>(null);
+
 
     const fetchArticles = async () => {
         try {
@@ -52,18 +52,7 @@ export default function AdminArticlesPage() {
         fetchArticles();
     }, []);
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Yakin ingin menghapus artikel ini?")) return;
-        setDeleting(id);
-        try {
-            await fetch(`/api/articles/${id}`, { method: "DELETE" });
-            setArticles((prev) => prev.filter((a) => a.id !== id));
-        } catch (error) {
-            console.error("Error deleting:", error);
-        } finally {
-            setDeleting(null);
-        }
-    };
+
 
     const filtered = articles.filter((a) =>
         a.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -164,18 +153,6 @@ export default function AdminArticlesPage() {
                                                 >
                                                     <Pencil size={16} />
                                                 </Link>
-                                                <button
-                                                    onClick={() => handleDelete(article.id)}
-                                                    disabled={deleting === article.id}
-                                                    className="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition-colors disabled:opacity-50"
-                                                    title="Hapus"
-                                                >
-                                                    {deleting === article.id ? (
-                                                        <Loader2 size={16} className="animate-spin" />
-                                                    ) : (
-                                                        <Trash2 size={16} />
-                                                    )}
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>

@@ -173,7 +173,7 @@ export default function EditActivityPage() {
                 return;
             }
 
-            router.push("/admin/activities");
+            router.push("/admin/activities?updated=true");
         } catch {
             setError("Terjadi kesalahan koneksi");
         } finally {
