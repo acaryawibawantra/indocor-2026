@@ -12,12 +12,14 @@ import {
     X,
     ChevronRight,
     Shield,
+    Users,
 } from "lucide-react";
 
 const navItems = [
     { href: "/superadmin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/superadmin/articles", label: "Review Artikel", icon: FileText },
     { href: "/superadmin/activities", label: "Review Kegiatan", icon: CalendarDays },
+    { href: "/superadmin/admins", label: "Kelola Admin", icon: Users },
 ];
 
 export default function SuperAdminLayout({

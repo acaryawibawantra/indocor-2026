@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Plus, Pencil, Trash2, Loader2, Search, Clock, CheckCircle2, XCircle } from "lucide-react";
+import { Plus, Pencil, Loader2, Search, Clock, CheckCircle2, XCircle } from "lucide-react";
 
 interface EventItem {
     id: number;
@@ -34,7 +34,7 @@ export default function AdminActivitiesPage() {
     const [events, setEvents] = useState<EventItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
-    const [deleting, setDeleting] = useState<number | null>(null);
+
 
     useEffect(() => {
         async function fetchEvents() {
@@ -51,18 +51,7 @@ export default function AdminActivitiesPage() {
         fetchEvents();
     }, []);
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Yakin ingin menghapus kegiatan ini?")) return;
-        setDeleting(id);
-        try {
-            await fetch(`/api/events/${id}`, { method: "DELETE" });
-            setEvents((prev) => prev.filter((e) => e.id !== id));
-        } catch (error) {
-            console.error("Error deleting:", error);
-        } finally {
-            setDeleting(null);
-        }
-    };
+
 
     const filtered = events.filter((e) =>
         e.title.toLowerCase().includes(search.toLowerCase())
@@ -153,17 +142,6 @@ export default function AdminActivitiesPage() {
                                                 >
                                                     <Pencil size={16} />
                                                 </Link>
-                                                <button
-                                                    onClick={() => handleDelete(event.id)}
-                                                    disabled={deleting === event.id}
-                                                    className="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition-colors disabled:opacity-50"
-                                                >
-                                                    {deleting === event.id ? (
-                                                        <Loader2 size={16} className="animate-spin" />
-                                                    ) : (
-                                                        <Trash2 size={16} />
-                                                    )}
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>

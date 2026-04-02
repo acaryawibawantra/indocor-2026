@@ -36,7 +36,7 @@ export async function PUT(
         const { slug, title, date, author, image_cover, pdf_file } = body;
 
         const [result] = await pool.query<ResultSetHeader>(
-            "UPDATE articles SET slug=?, title=?, date=?, author=?, image_cover=?, pdf_file=? WHERE id=?",
+            "UPDATE articles SET slug=?, title=?, date=?, author=?, image_cover=?, pdf_file=?, status='pending', review_note=NULL, reviewed_at=NULL WHERE id=?",
             [slug, title, date, author, image_cover || null, pdf_file, id]
         );
 
@@ -44,7 +44,7 @@ export async function PUT(
             return NextResponse.json({ error: "Article tidak ditemukan" }, { status: 404 });
         }
 
-        return NextResponse.json({ message: "Article berhasil diupdate" });
+        return NextResponse.json({ message: "Article berhasil diupdate dan dikirim ulang untuk review" });
     } catch (error) {
         console.error("Error updating article:", error);
         return NextResponse.json({ error: "Gagal mengupdate article" }, { status: 500 });

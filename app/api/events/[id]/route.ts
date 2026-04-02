@@ -36,7 +36,7 @@ export async function PUT(
         const { slug, title, date, image_main, section1_text, image_support1, section2_text, image_support2, section3_text } = body;
 
         const [result] = await pool.query<ResultSetHeader>(
-            `UPDATE events SET slug=?, title=?, date=?, image_main=?, section1_text=?, image_support1=?, section2_text=?, image_support2=?, section3_text=? WHERE id=?`,
+            `UPDATE events SET slug=?, title=?, date=?, image_main=?, section1_text=?, image_support1=?, section2_text=?, image_support2=?, section3_text=?, status='pending', review_note=NULL, reviewed_at=NULL WHERE id=?`,
             [slug, title, date, image_main, section1_text || null, image_support1 || null, section2_text || null, image_support2 || null, section3_text || null, id]
         );
 
@@ -44,7 +44,7 @@ export async function PUT(
             return NextResponse.json({ error: "Event tidak ditemukan" }, { status: 404 });
         }
 
-        return NextResponse.json({ message: "Event berhasil diupdate" });
+        return NextResponse.json({ message: "Event berhasil diupdate dan dikirim ulang untuk review" });
     } catch (error) {
         console.error("Error updating event:", error);
         return NextResponse.json({ error: "Gagal mengupdate event" }, { status: 500 });
