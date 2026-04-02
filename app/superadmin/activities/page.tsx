@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
     Loader2, Search, Clock, CheckCircle2, XCircle,
-    Eye, MessageSquare, Check, X as XIcon
+    Eye, MessageSquare, Check, X as XIcon, Trash2
 } from "lucide-react";
 
 interface EventItem {
@@ -43,6 +43,7 @@ export default function SuperAdminActivitiesPage() {
     const [reviewNote, setReviewNote] = useState("");
     const [processing, setProcessing] = useState<number | null>(null);
     const [successMsg, setSuccessMsg] = useState("");
+    const [deletingId, setDeletingId] = useState<number | null>(null);
 
     const fetchEvents = async () => {
         try {
@@ -85,6 +86,26 @@ export default function SuperAdminActivitiesPage() {
             console.error("Error reviewing:", error);
         } finally {
             setProcessing(null);
+        }
+    };
+
+    const handleDelete = async (id: number, title: string) => {
+        if (!confirm(`Apakah Anda yakin ingin menghapus kegiatan "${title}"? Tindakan ini tidak dapat dibatalkan.`)) return;
+        setDeletingId(id);
+        try {
+            const res = await fetch(`/api/events/${id}`, { method: "DELETE" });
+            if (res.ok) {
+                setSuccessMsg("Kegiatan berhasil dihapus!");
+                setTimeout(() => setSuccessMsg(""), 3000);
+                await fetchEvents();
+            } else {
+                alert("Gagal menghapus kegiatan.");
+            }
+        } catch (error) {
+            console.error("Error deleting:", error);
+            alert("Terjadi kesalahan saat menghapus.");
+        } finally {
+            setDeletingId(null);
         }
     };
 
@@ -234,6 +255,19 @@ export default function SuperAdminActivitiesPage() {
                                                 Revisi
                                             </button>
                                         )}
+
+                                        <button
+                                            onClick={() => handleDelete(event.id, event.title)}
+                                            disabled={deletingId === event.id}
+                                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-900 text-white transition-all text-sm font-bold disabled:opacity-50"
+                                        >
+                                            {deletingId === event.id ? (
+                                                <Loader2 size={16} className="animate-spin" />
+                                            ) : (
+                                                <Trash2 size={16} />
+                                            )}
+                                            Hapus
+                                        </button>
                                     </div>
                                 </div>
 
